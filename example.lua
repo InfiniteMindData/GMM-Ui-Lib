@@ -388,10 +388,15 @@ hotkeyMenu:Button("Super Jump Hotkey: J", "Toggle Super Jump quickly.", function
 hotkeyMenu:Button("Fast Walk Hotkey: F", "Toggle Fast Walk quickly.", function() end)
 hotkeyMenu:Button("Invisible Hotkey: I", "Toggle Invisibility quickly.", function() end)
 
-local ThemeOptions = { "Classic", "Dark", "Light", "Neon", "High Contrast" }
+local ThemeOptions = { "Default", "Dark", "Light", "Cherry", "Ocean" }
 
 themeMenu:List("Select Theme", "Choose your preferred theme.", ThemeOptions, 1, function(theme, index)
     Settings.CurrentTheme = theme
+    ui:SetTheme(theme)
+end)
+
+themeMenu:Button("Test Notification", "Show a test notification.", function()
+    ui:Notify({Title="Test", Content="This is a test notification!", Duration=3})
 end)
 
 themeMenu:Toggle("Show Descriptions", "Toggle option descriptions.", true, function(enabled) end)
@@ -416,4 +421,10 @@ UserInputService.InputBegan:Connect(function(input, gameProcessed)
     end
 end)
 
-ui:PushMenu(homeMenu)
+GmmUI.PromptKey({
+    Key = "1234",
+    Title = "GMM UI - Enter Key (1234)"
+}, function()
+    ui:PushMenu(homeMenu)
+    ui:Notify({Title="Welcome", Content="Successfully authenticated!", Duration=5})
+end)
